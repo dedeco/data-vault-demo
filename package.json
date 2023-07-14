@@ -1,5 +1,8 @@
 {
     "dependencies": {
-        "@dataform/core": "2.6.0"
+        "@dataform/core": "2.6.0",
+        "blueimp-md5": "^2.19.0",
+        "convert-string": "^0.1.0",
+        "md5": "^2.3.0"
     }
 }

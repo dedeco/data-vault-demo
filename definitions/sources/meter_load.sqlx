@@ -14,7 +14,7 @@
 
 config {
   type: "declaration",
-  database: "data-foundations",
+  database: "andresousa-demo",
   schema: "staging",
   name: "meter_load",
   description: "meter data test"
