@@ -1,4 +1,4 @@
-Credits to prabhaarya@ (github) 
+Credits to Prabha Arya/prabhaarya@ (github). Copied from [here](https://github.com/GoogleCloudPlatform/bigquery-utils/tree/master/dataform/examples/dataform_datavault) to use in Partner demo.
 
 ## Data Vault in BigQuery using Dataform
 In this repository, we provide an example Dataform project that transforms data in BigQuery following Data Vault 2.0 modeling technique.
