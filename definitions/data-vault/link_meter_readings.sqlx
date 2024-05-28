@@ -14,7 +14,7 @@
 
 config {
   type: "incremental",
-  schema: "raw",
+  schema: "dwh_cur",
   name: "link_meter_readings",
   uniqueKey: ["meter_hash_id", "readings_hash_id"],
   bigquery: {

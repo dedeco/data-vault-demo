@@ -13,32 +13,34 @@
 # limitations under the License.
 
 config {
-  name: "hub_meter",
-  schema: "raw",
+  name: "hub_readings",
+  schema: "dwh_cur",
   type: "incremental",
-  uniqueKey: ["meter_id"],
+  uniqueKey: ["readings_id"],
   bigquery: {
-    partitionBy: "loaddate"
+    partitionBy: "loaddate",
+    clusterBy: ["readings_id"]
   }
 }
 pre_operations {
   CREATE TABLE IF NOT EXISTS ${self()} (
-      meter_hash_id STRING,
-      meter_id INTEGER,
-      source STRING,
+      readings_hash_id STRING,
+      readings_id INTEGER,
+      Source STRING,
       loaddate DATE
       )
     PARTITION BY loaddate
+    CLUSTER BY readings_id;
 }
 
 SELECT DISTINCT
-  ${hashing.ConvertHash("s.meter_id")} AS meter_hash_id,
-  s.meter_id AS meter_id,
+  ${hashing.ConvertHash("s.readings_id")} AS readings_hash_id,
+  s.readings_id AS readings_id,
   s.source AS source,
   s.loaddate AS loaddate
-FROM ${ref("meter_load")} AS s LEFT JOIN ${self()} AS r 
-ON s.meter_id = r.meter_id
+FROM ${ref("meter_readings_load")} AS s LEFT JOIN ${self()} AS r
+ON s.readings_id = r.readings_id
 WHERE
-r.meter_hash_id IS NULL
+r.readings_hash_id IS NULL
 AND
 s.loaddate >= CAST(timestamp_sub(current_timestamp, INTERVAL 7 DAY)AS DATE)
