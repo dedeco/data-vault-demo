@@ -1,0 +1,56 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+config {
+  name: "report_readings",
+  schema: "dwh_ext",
+  type: "table"
+}
+
+SELECT
+  h_meter.meter_id,
+  s_meter.manufacturer,
+  s_meter.service_name,
+  DATE(s_readings.readings_time) AS reading_date,
+  AVG(s_readings.readings) AS avg_reading,
+  MIN(s_readings.readings) AS min_reading,
+  MAX(s_readings.readings) AS max_reading,
+  count(*) as count_reading
+FROM
+  ${ref("hub_meter")} AS h_meter
+JOIN
+  ${ref("link_meter_readings")} AS l_meter_readings
+ON
+  h_meter.meter_hash_id = l_meter_readings.meter_hash_id
+JOIN
+  ${ref("hub_readings")} AS h_readings
+ON
+  l_meter_readings.readings_hash_id = h_readings.readings_hash_id
+JOIN
+  ${ref("sat_meter")} AS s_meter
+ON
+  h_meter.meter_hash_id = s_meter.meter_hash_id
+JOIN
+  ${ref("sat_readings")} AS s_readings
+ON
+  h_readings.readings_hash_id = s_readings.readings_hash_id
+--WHERE s_meter.effective_from <= DATE(s_readings.readings_time)
+GROUP BY
+  h_meter.meter_id,
+  s_meter.manufacturer,
+  s_meter.service_name,
+  reading_date
+ORDER BY
+  reading_date,
+  h_meter.meter_id
