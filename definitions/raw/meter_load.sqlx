@@ -14,8 +14,8 @@
 
 config {
   type: "declaration",
-  database: "andresousa-demo",
-  schema: "staging",
+  database: "dwh-stor-vault",
+  schema: "raw",
   name: "meter_load",
   description: "meter data test"
 }

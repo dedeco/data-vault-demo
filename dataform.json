@@ -2,7 +2,7 @@
     "warehouse": "bigquery",
     "defaultSchema": "dataform",
     "assertionSchema": "dataform_assertions",
-    "defaultDatabase": "andresousa-demo",
+    "defaultDatabase": "dwh-stor-vault",
     "useRunCache": false,
-    "defaultLocation": "us-central1"
+    "defaultLocation": "US"
 }

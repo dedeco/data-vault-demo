@@ -14,7 +14,7 @@
 
 config {
   type: "incremental",
-  schema: "raw",
+  schema: "dwh_cur",
   name: "sat_meter",
   uniqueKey: ["meter_hash_id", "sat_meter_hashdiff"],
   bigquery: {
